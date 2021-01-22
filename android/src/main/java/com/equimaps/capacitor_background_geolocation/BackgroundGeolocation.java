@@ -26,8 +26,6 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.android.BuildConfig;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONObject;
 
@@ -62,21 +60,6 @@ public class BackgroundGeolocation extends Plugin {
             if (!isLocationEnabled(getContext())) {
                 call.reject("Location services disabled.", "NOT_AUTHORIZED");
             }
-        }
-        if (call.getBoolean("stale", false)) {
-            LocationServices.getFusedLocationProviderClient(
-                    getContext()
-            ).getLastLocation().addOnSuccessListener(
-                    getActivity(),
-                    new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                call.success(formatLocation(location));
-                            }
-                        }
-                    }
-            );
         }
         Notification backgroundNotification = null;
         String backgroundMessage = call.getString("backgroundMessage");
